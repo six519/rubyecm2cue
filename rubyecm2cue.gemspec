@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
     s.name = "rubyecm2cue"
-    s.version = "1.0.3"
+    s.version = "1.0.4"
     s.date = "2016-09-04"
     s.authors = ["Ferdinand E. Silva"]
     s.email = "ferdinandsilva@ferdinandsilva.com"
