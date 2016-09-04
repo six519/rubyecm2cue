@@ -24,9 +24,11 @@ VALUE method_process(VALUE self, VALUE arg_path) {
 
     if(strlen(infilename) < 5) {
       strcpy(retValue, "filename is too short");
+      return rb_str_new_cstr(retValue);
     }
     if(strcasecmp(infilename + strlen(infilename) - 4, ".ecm")) {
       strcpy(retValue, "filename must end in .ecm");
+      return rb_str_new_cstr(retValue);
     }
 
     outfilename = malloc(strlen(infilename) - 3);
@@ -40,11 +42,13 @@ VALUE method_process(VALUE self, VALUE arg_path) {
     fin = fopen(infilename, "rb");
     if(!fin) {
       strcpy(retValue, "Cannot open file");
+      return rb_str_new_cstr(retValue);
     }
     fout = fopen(outfilename, "wb");
     if(!fout) {
       strcpy(retValue, "Cannot write file");
       fclose(fin);
+      return rb_str_new_cstr(retValue);
     }
 
     unecm_ret = unecmify(fin, fout);
@@ -54,12 +58,14 @@ VALUE method_process(VALUE self, VALUE arg_path) {
 
     if(unecm_ret != 0) {
       strcpy(retValue, "Cannot decode file");
+      return rb_str_new_cstr(retValue);
     }
 
     strcpy(oldfilename, outfilename);
     cue_file = fopen(strcat(outfilename, ".cue"), "w");
     if(!cue_file) {
       strcpy(retValue, "Cannot write cue file");
+      return rb_str_new_cstr(retValue);
     }
     fprintf(cue_file, "FILE \"%s\" BINARY\n", oldfilename);
     fprintf(cue_file, "\tTRACK 01 MODE1/2352\n");
@@ -67,6 +73,5 @@ VALUE method_process(VALUE self, VALUE arg_path) {
     fclose(cue_file);
 
     strcpy(retValue, outfilename);
-
     return rb_str_new_cstr(retValue);
 }
