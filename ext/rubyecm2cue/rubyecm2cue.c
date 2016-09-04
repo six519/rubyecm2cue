@@ -12,7 +12,7 @@ void Init_rubyecm2cue(){
 }
 
 VALUE method_process(VALUE self, VALUE arg_path) {
-    char *retValue = "";
+    char *retValue;
     char *infilename = StringValueCStr(arg_path);;
     char *outfilename;
     char *oldfilename;
@@ -21,7 +21,7 @@ VALUE method_process(VALUE self, VALUE arg_path) {
     FILE *fin, *fout, *cue_file;
 
     eccedc_init();
-
+    retValue = malloc(strlen(infilename) - 3);
     if(strlen(infilename) < 5) {
       strcpy(retValue, "filename is too short");
       return rb_str_new_cstr(retValue);
